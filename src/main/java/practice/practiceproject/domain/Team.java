@@ -26,7 +26,6 @@ public class Team {
     private String name;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
-//    @JoinColumn(name = "team_id")
     private List<Member> members = new ArrayList<>();
 
     @Builder
