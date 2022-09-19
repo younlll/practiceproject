@@ -9,7 +9,7 @@ import practice.practiceproject.domain.Team;
 
 @Repository
 public interface TeamRepository extends JpaRepository<Team, Long> {
-    @Query("select a from Team a join fetch a.members")
+    @Query("select DISTINCT a from Team a join fetch a.members")
     List<Team> findAllJoinFetch();
 
     @EntityGraph(attributePaths = "members")

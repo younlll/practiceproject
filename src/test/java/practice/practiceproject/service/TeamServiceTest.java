@@ -35,9 +35,11 @@ class TeamServiceTest {
 
             team.addMember(Member.builder()
                     .firstName("first" + i)
+                    .lastName("last" + i)
                     .build());
             team.addMember(Member.builder()
-                    .lastName("last" + i)
+                    .firstName("2first" + i)
+                    .lastName("2last" + i)
                     .build());
             teams.add(team);
         }
@@ -46,15 +48,26 @@ class TeamServiceTest {
     }
 
     @Test
-    void 멤버_firstName_조회_N1_발생() {
+    void 팀_조회_N1_발생() {
+        List<Team> teams = teamRepository.findAll();
+        assertThat(teams.size()).isEqualTo(10);
+    }
+
+    @Test
+    void 팀_조회_LAZY_연관관계_데이터_호출_N1_발생() {
         List<String> firstNames = teamService.findAllFirstName();
         assertThat(firstNames.size()).isEqualTo(10);
     }
 
     @Test
+    void 팀_조회_JoinFetch_N1_해결() {
+        List<Team> teams = teamRepository.findAllJoinFetch();
+    }
+
+    @Test
     void 팀_조회_JoinFetch_카데시안곱_확인() {
         List<Team> teams = teamRepository.findAllJoinFetch();
-        assertThat(teams.size()).isEqualTo(20);
+        assertThat(teams.size()).isEqualTo(10);
     }
 
     @Test
@@ -64,9 +77,9 @@ class TeamServiceTest {
     }
 
     @Test
-    void 팀_조회_EntityGraph_카데시안곱_확인() {
+    void 팀_조회_EntityGraph_N1_해결() {
         List<Team> teams = teamRepository.findAllEntityGraph();
-        assertThat(teams.size()).isEqualTo(20);
+        assertThat(teams.size()).isEqualTo(10);
     }
 
     @Test
